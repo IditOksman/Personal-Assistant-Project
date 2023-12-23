@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@500&family=Roboto:wght@100&display=swap");
+
+body {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(7, 150, 148, 0.834);
+  font-family: "Playpen Sans", cursive;
+}
+
+h1,
+.input-box,
+h2 {
+  display: flex;
+  justify-content: center;
+}
+
+.input-box {
+  display: grid;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #5656568f;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease-in-out;
+  font-family: "Playpen Sans", cursive;
+}
+
+/* Hover Effect */
+button:hover {
+  background-color: #343434a5;
+}
+
+input {
+  padding: 10px;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+input:hover {
+  border-color: #666;
+}
+
+/* Focus Styles */
+input:focus {
+  border-color: #343434;
+  box-shadow: 0 0 8px rgba(53, 53, 53, 0.5);
+}
+
+ul {
+  padding-left: 0;
+}
+
+.icon-container {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}

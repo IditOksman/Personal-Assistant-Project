@@ -1,0 +1,46 @@
+li {
+  display: flex;
+  list-style-type: none;
+  justify-content: space-between;
+}
+
+.task {
+  border: none;
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: #ffffff;
+  margin-bottom: 5px;
+  padding: 10px;
+}
+
+.edit-task-text {
+  position: absolute;
+  overflow: hidden;
+  width: 60%;
+  height: 10%;
+  background: rgba(255, 255, 255, 0.631);
+  /* border: none; */
+}
+
+.task:hover {
+  background-color: #5656568f;
+  animation-name: bounce;
+  animation-timing-function: ease;
+}
+
+.task:hover .task-trash-icon,
+.task:hover .task-pen-icon,
+.task:hover .task-check-icon {
+  color: black;
+}
+
+.task-icons {
+  color: #5656568f;
+  cursor: pointer;
+}
+
+.task-pen-icon,
+.task-check-icon {
+  margin-left: 5px;
+}
