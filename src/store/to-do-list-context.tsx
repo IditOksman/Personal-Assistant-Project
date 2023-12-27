@@ -5,6 +5,7 @@ export const TodoListContext = createContext<TodoListContextValues>({
   toDoList: [],
   deletedList: [],
   onDelete: () => {},
+  onEdit: () => {},
 });
 
 interface ToDoListContextProviderProps {
@@ -15,7 +16,15 @@ interface ToDoListState {
   toDoList: Task[];
   deletedList: Task[];
 }
-type ToDoListAction = DeleteItemAction;
+type ToDoListAction = DeleteItemAction | EditItemAction;
+
+interface EditItemAction {
+  type: string;
+  payload: {
+    id: number;
+    newText: string;
+  };
+}
 
 interface DeleteItemAction {
   type: string;
@@ -30,9 +39,10 @@ function toDoListReducer(
     case "DELETE_ITEM": {
       let updatedToDoList = state.toDoList;
       let updatedDeletedList = state.deletedList;
+      const deletePayload = action as DeleteItemAction;
 
       const deletedTaskToBeAddedToHistory = updatedToDoList.find(
-        (task) => task.id === action.payload
+        (task) => task.id === deletePayload.payload
       );
       if (deletedTaskToBeAddedToHistory) {
         updatedToDoList = updatedToDoList.filter(
@@ -46,7 +56,27 @@ function toDoListReducer(
         deletedList: updatedDeletedList,
       };
     }
+
+    case "EDIT_ITEM": {
+      let updatedToDoList = state.toDoList;
+      const editPayload = action as EditItemAction;
+
+      updatedToDoList
+        .map((task) =>
+          task.id === editPayload.payload.id
+            ? { ...task, text: editPayload.payload.newText }
+            : task
+        )
+        .filter((task) => task.text.trim() !== "");
+
+      return {
+        ...state,
+        toDoList: updatedToDoList,
+        deletedList: state.deletedList,
+      };
+    }
     default: {
+      return state;
     }
   }
 
@@ -67,11 +97,24 @@ export default function ToDoListContextProvider({
       payload: id,
     });
   }
+
+  function handleOnEditTask(id: number, newText: string) {
+    toDoListDispatch({
+      type: "EDIT_ITEM",
+      payload: {
+        id,
+        newText,
+      },
+    });
+  }
+
   const ctxValue = {
     toDoList: toDoListState.toDoList,
     deletedList: toDoListState.deletedList,
     onDelete: handleOnDeleteTask,
+    onEdit: handleOnEditTask,
   };
+
   return (
     <TodoListContext.Provider value={ctxValue}>
       {children}

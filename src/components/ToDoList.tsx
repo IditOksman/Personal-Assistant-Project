@@ -4,20 +4,14 @@ import NewTask from "./NewTask";
 import { TodoListContext } from "../store/to-do-list-context.tsx";
 
 const ToDoList = forwardRef(function ToDoList(ref) {
-  const { toDoList, onDelete } = useContext(TodoListContext);
-
-  const [tasks, setTasks] = useState<Array<Task>>([]);
+  const { toDoList, onDelete, onEdit } = useContext(TodoListContext);
 
   function onDeleteTaskHandler(id: number) {
     onDelete(id);
   }
 
   function onEditTaskHandler(id: number, newText: string) {
-    setTasks((prevTasks) =>
-      prevTasks
-        .map((task) => (task.id === id ? { ...task, text: newText } : task))
-        .filter((task) => task.text.trim() !== "")
-    );
+    onEdit(id, newText);
   }
 
   useImperativeHandle(ref, () => {

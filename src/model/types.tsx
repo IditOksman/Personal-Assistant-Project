@@ -13,6 +13,7 @@ export interface TodoListContextValues {
   toDoList: Task[];
   deletedList: Task[];
   onDelete: (id: number) => void;
+  onEdit: (id: number, newText: string) => void;
 }
 
 export interface DeletedTaskProps {
