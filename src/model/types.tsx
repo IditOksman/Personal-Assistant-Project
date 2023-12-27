@@ -9,6 +9,12 @@ export interface Task {
   id: number;
 }
 
+export interface TodoListContextValues {
+  toDoList: Task[];
+  deletedList: Task[];
+  onDelete: (id: number) => void;
+}
+
 export interface DeletedTaskProps {
   data: Task;
   undoDeletedTask: (data: Task) => void;

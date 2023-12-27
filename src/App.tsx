@@ -3,6 +3,7 @@ import "./App.css";
 import { TasksRef } from "./model/types";
 import Tasks from "./components/Tasks";
 import UserInput from "./components/UserInput";
+import ToDoListContextProvider from "./store/to-do-list-context.tsx";
 
 function App() {
   const tasksComponentRef = useRef<TasksRef | null>(null);
@@ -13,11 +14,11 @@ function App() {
   }
 
   return (
-    <div>
+    <ToDoListContextProvider>
       <h1>To Do List</h1>
       <UserInput InputReady={onInputReadyHandler} />
       <Tasks ref={tasksComponentRef} />
-    </div>
+    </ToDoListContextProvider>
   );
 }
 

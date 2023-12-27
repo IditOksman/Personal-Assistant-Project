@@ -1,20 +1,15 @@
-import { useImperativeHandle, useState, forwardRef } from "react";
+import { useImperativeHandle, useState, forwardRef, useContext } from "react";
 import { Task, ToDoListProps } from "../model/types";
 import NewTask from "./NewTask";
+import { TodoListContext } from "../store/to-do-list-context.tsx";
 
-const ToDoList = forwardRef(function ToDoList(
-  { onDelete }: ToDoListProps,
-  ref
-) {
+const ToDoList = forwardRef(function ToDoList(ref) {
+  const { toDoList, onDelete } = useContext(TodoListContext);
+
   const [tasks, setTasks] = useState<Array<Task>>([]);
 
   function onDeleteTaskHandler(id: number) {
-    const deletedTaskToBeAddedToHistory = tasks.find((task) => task.id === id);
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
-
-    if (deletedTaskToBeAddedToHistory) {
-      onDelete(deletedTaskToBeAddedToHistory);
-    }
+    onDelete(id);
   }
 
   function onEditTaskHandler(id: number, newText: string) {
@@ -37,7 +32,7 @@ const ToDoList = forwardRef(function ToDoList(
 
   return (
     <ul>
-      {tasks.map((task, index) => (
+      {toDoList.map((task, index) => (
         <NewTask
           key={index}
           data={task}
