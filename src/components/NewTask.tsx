@@ -2,10 +2,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import classes from "./newtask.module.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { NewTaskProps } from "../model/types";
+import { TodoListContext } from "../store/to-do-list-context";
 
-export default function NewTask({ data, deleteTask, editTask }: NewTaskProps) {
+export default function NewTask({ data }: NewTaskProps) {
+  const { onDelete, onEdit } = useContext(TodoListContext);
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState(data.text);
 
@@ -27,7 +29,7 @@ export default function NewTask({ data, deleteTask, editTask }: NewTaskProps) {
         <div className={classes["task-icons"]}>
           <FontAwesomeIcon
             onClick={() => {
-              deleteTask(data.id);
+              onDelete(data.id);
             }}
             className={classes["task-trash-icon"]}
             icon={faTrash}
@@ -46,7 +48,7 @@ export default function NewTask({ data, deleteTask, editTask }: NewTaskProps) {
               icon={faCheck}
               onClick={() => {
                 setIsEditing(false);
-                editTask(data.id, editedTask);
+                onEdit(data.id, editedTask);
               }}
             />
           )}

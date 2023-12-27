@@ -6,6 +6,7 @@ export const TodoListContext = createContext<TodoListContextValues>({
   deletedList: [],
   onDelete: () => {},
   onEdit: () => {},
+  onAdd: () => {},
 });
 
 interface ToDoListContextProviderProps {
@@ -16,7 +17,7 @@ interface ToDoListState {
   toDoList: Task[];
   deletedList: Task[];
 }
-type ToDoListAction = DeleteItemAction | EditItemAction;
+type ToDoListAction = DeleteItemAction | EditItemAction | AddItemAction;
 
 interface EditItemAction {
   type: string;
@@ -29,6 +30,11 @@ interface EditItemAction {
 interface DeleteItemAction {
   type: string;
   payload: number; // Assuming payload is the ID
+}
+
+interface AddItemAction {
+  type: string;
+  payload: string; // Assuming payload is the ID
 }
 
 function toDoListReducer(
@@ -61,7 +67,7 @@ function toDoListReducer(
       let updatedToDoList = state.toDoList;
       const editPayload = action as EditItemAction;
 
-      updatedToDoList
+      updatedToDoList = updatedToDoList
         .map((task) =>
           task.id === editPayload.payload.id
             ? { ...task, text: editPayload.payload.newText }
@@ -75,6 +81,25 @@ function toDoListReducer(
         deletedList: state.deletedList,
       };
     }
+
+    case "ADD_ITEM": {
+      let updatedToDoList = state.toDoList;
+      const addPayload = action as AddItemAction;
+
+      const newTask: Task = {
+        id: Math.random(),
+        text: addPayload.payload,
+      };
+
+      updatedToDoList.push(newTask);
+
+      return {
+        ...state,
+        toDoList: updatedToDoList,
+        deletedList: state.deletedList,
+      };
+    }
+
     default: {
       return state;
     }
@@ -108,11 +133,19 @@ export default function ToDoListContextProvider({
     });
   }
 
+  function handleOnAddTask(newText: string) {
+    toDoListDispatch({
+      type: "ADD_ITEM",
+      payload: newText,
+    });
+  }
+
   const ctxValue = {
     toDoList: toDoListState.toDoList,
     deletedList: toDoListState.deletedList,
     onDelete: handleOnDeleteTask,
     onEdit: handleOnEditTask,
+    onAdd: handleOnAddTask,
   };
 
   return (

@@ -1,8 +1,10 @@
-import { useRef } from "react";
-import { UserInputProps } from "../model/types";
+import { useContext, useRef } from "react";
+import { TodoListContext } from "../store/to-do-list-context";
 
-export default function UserInput({ InputReady }: UserInputProps) {
+export default function UserInput() {
   const taskRef = useRef<HTMLInputElement | null>(null);
+
+  const { onAdd } = useContext(TodoListContext);
   function onUserInputHandler(event: React.ChangeEvent<HTMLInputElement>) {
     if (taskRef.current) {
       taskRef.current.value = event.target.value;
@@ -12,7 +14,7 @@ export default function UserInput({ InputReady }: UserInputProps) {
   function onAddToListHandler() {
     if (taskRef.current === null) return;
     if (taskRef.current.value.trim() === "") return;
-    InputReady(taskRef.current.value);
+    onAdd(taskRef.current.value);
     taskRef.current.value = "";
   }
 

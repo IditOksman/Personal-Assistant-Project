@@ -1,7 +1,5 @@
 export interface NewTaskProps {
   data: Task;
-  deleteTask: (id: number) => void;
-  editTask: (id: number, updatedTask: string) => void;
 }
 
 export interface Task {
@@ -14,6 +12,7 @@ export interface TodoListContextValues {
   deletedList: Task[];
   onDelete: (id: number) => void;
   onEdit: (id: number, newText: string) => void;
+  onAdd: (newText: string) => void;
 }
 
 export interface DeletedTaskProps {

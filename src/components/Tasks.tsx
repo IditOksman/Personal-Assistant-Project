@@ -9,15 +9,9 @@ import {
 import ToDoList from "./ToDoList";
 import DeletedList from "./DeletedList";
 
-const Tasks = forwardRef(function Tasks({}, ref) {
+function Tasks() {
   const [isInHistoryMode, setIsInHistoryMode] = useState(false);
-  const toDoListComponentRef = useRef<ToDoListRef | null>(null);
   const deletedListComponentRef = useRef<DeletedListRef | null>(null);
-
-  function onAddHandler(taskToAdd: Task) {
-    if (toDoListComponentRef.current === null) return;
-    toDoListComponentRef.current.addTaskToList(taskToAdd);
-  }
 
   function onDeleteHandler(deletedTask: Task) {
     if (deletedListComponentRef.current === null) return;
@@ -32,18 +26,6 @@ const Tasks = forwardRef(function Tasks({}, ref) {
     if (deletedListComponentRef.current === null) return;
     deletedListComponentRef.current.clearAllDeletedList();
   }
-
-  useImperativeHandle(ref, () => {
-    return {
-      addTask(text: string) {
-        const newTask: Task = {
-          text: text,
-          id: Math.random(),
-        };
-        onAddHandler(newTask);
-      },
-    };
-  });
 
   return (
     <div>
@@ -76,12 +58,12 @@ const Tasks = forwardRef(function Tasks({}, ref) {
         )}
       </div>
       {!isInHistoryMode ? (
-        <ToDoList ref={toDoListComponentRef} onDelete={onDeleteHandler} />
+        <ToDoList />
       ) : (
         <DeletedList ref={deletedListComponentRef} onUndo={onUndoHandler} />
       )}
     </div>
   );
-});
+}
 
 export default Tasks;
