@@ -7,6 +7,9 @@ export const TodoListContext = createContext<TodoListContextValues>({
   onDelete: () => {},
   onEdit: () => {},
   onAdd: () => {},
+  onDeleteHistoryTask: () => {},
+  onUndo: () => {},
+  onClearAll: () => {},
 });
 
 interface ToDoListContextProviderProps {
@@ -17,7 +20,6 @@ interface ToDoListState {
   toDoList: Task[];
   deletedList: Task[];
 }
-type ToDoListAction = DeleteItemAction | EditItemAction | AddItemAction;
 
 interface EditItemAction {
   type: string;
@@ -34,8 +36,31 @@ interface DeleteItemAction {
 
 interface AddItemAction {
   type: string;
-  payload: string; // Assuming payload is the ID
+  payload: string; // Assuming payload is the newText
 }
+
+interface DeleteHistoryTaskAction {
+  type: string;
+  payload: number;
+}
+
+interface UndoHistoryItemAction {
+  type: string;
+  payload: number;
+}
+
+interface ClearAllAction {
+  type: string;
+  payload: null;
+}
+
+type ToDoListAction =
+  | DeleteItemAction
+  | EditItemAction
+  | AddItemAction
+  | DeleteHistoryTaskAction
+  | UndoHistoryItemAction
+  | ClearAllAction;
 
 function toDoListReducer(
   state: ToDoListState,
@@ -43,12 +68,12 @@ function toDoListReducer(
 ): ToDoListState {
   switch (action.type) {
     case "DELETE_ITEM": {
-      let updatedToDoList = state.toDoList;
-      let updatedDeletedList = state.deletedList;
-      const deletePayload = action as DeleteItemAction;
+      let updatedToDoList = [...state.toDoList];
+      let updatedDeletedList = [...state.deletedList];
+      const deleteAction = action as DeleteItemAction;
 
       const deletedTaskToBeAddedToHistory = updatedToDoList.find(
-        (task) => task.id === deletePayload.payload
+        (task) => task.id === deleteAction.payload
       );
       if (deletedTaskToBeAddedToHistory) {
         updatedToDoList = updatedToDoList.filter(
@@ -64,13 +89,13 @@ function toDoListReducer(
     }
 
     case "EDIT_ITEM": {
-      let updatedToDoList = state.toDoList;
-      const editPayload = action as EditItemAction;
+      let updatedToDoList = [...state.toDoList];
+      const editAction = action as EditItemAction;
 
       updatedToDoList = updatedToDoList
         .map((task) =>
-          task.id === editPayload.payload.id
-            ? { ...task, text: editPayload.payload.newText }
+          task.id === editAction.payload.id
+            ? { ...task, text: editAction.payload.newText }
             : task
         )
         .filter((task) => task.text.trim() !== "");
@@ -83,16 +108,24 @@ function toDoListReducer(
     }
 
     case "ADD_ITEM": {
-      let updatedToDoList = state.toDoList;
-      const addPayload = action as AddItemAction;
+      console.log("toDoListReducer ADD_ITEM");
+      let updatedToDoList = [...state.toDoList];
+      const addAction = action as AddItemAction;
+
+      console.log("list = " + updatedToDoList);
 
       const newTask: Task = {
         id: Math.random(),
-        text: addPayload.payload,
+        text: addAction.payload,
       };
+
+      console.log("task to add = ");
+      console.log(newTask);
 
       updatedToDoList.push(newTask);
 
+      console.log("list after add = ");
+      console.log(updatedToDoList);
       return {
         ...state,
         toDoList: updatedToDoList,
@@ -100,12 +133,58 @@ function toDoListReducer(
       };
     }
 
+    case "DELETE_HISTORY_ITEM": {
+      let updatedDeletedList = [...state.deletedList];
+      const deleteHistoryTaskAction = action as DeleteHistoryTaskAction;
+
+      const deletedTaskToBeDeletedFromHistory = updatedDeletedList.find(
+        (task) => task.id === deleteHistoryTaskAction.payload
+      );
+      if (deletedTaskToBeDeletedFromHistory) {
+        updatedDeletedList = updatedDeletedList.filter(
+          (task) => task.id !== deletedTaskToBeDeletedFromHistory.id
+        );
+      }
+      return {
+        ...state,
+        toDoList: state.toDoList,
+        deletedList: updatedDeletedList,
+      };
+    }
+
+    case "UNDO_HISTORY_ITEM": {
+      let updatedToDoList = [...state.toDoList];
+      let updatedDeletedList = [...state.deletedList];
+      const deleteHistoryTaskAction = action as DeleteHistoryTaskAction;
+
+      const deletedTaskToBeDeletedFromHistory = updatedDeletedList.find(
+        (task) => task.id === deleteHistoryTaskAction.payload
+      );
+      if (deletedTaskToBeDeletedFromHistory) {
+        updatedDeletedList = updatedDeletedList.filter(
+          (task) => task.id !== deletedTaskToBeDeletedFromHistory.id
+        );
+        updatedToDoList.push(deletedTaskToBeDeletedFromHistory);
+      }
+      return {
+        ...state,
+        toDoList: updatedToDoList,
+        deletedList: updatedDeletedList,
+      };
+    }
+
+    case "CLEAR_ALL": {
+      return {
+        ...state,
+        toDoList: [...state.toDoList],
+        deletedList: [],
+      };
+    }
+
     default: {
       return state;
     }
   }
-
-  return state;
 }
 
 export default function ToDoListContextProvider({
@@ -134,9 +213,31 @@ export default function ToDoListContextProvider({
   }
 
   function handleOnAddTask(newText: string) {
+    console.log("handleOnAddTask");
     toDoListDispatch({
       type: "ADD_ITEM",
       payload: newText,
+    });
+  }
+
+  function handleOnDeleteHistoryTask(id: number) {
+    toDoListDispatch({
+      type: "DELETE_HISTORY_ITEM",
+      payload: id,
+    });
+  }
+
+  function handleOnUndo(id: number) {
+    toDoListDispatch({
+      type: "UNDO_HISTORY_ITEM",
+      payload: id,
+    });
+  }
+
+  function handleOnClearAll() {
+    toDoListDispatch({
+      type: "CLEAR_ALL",
+      payload: null,
     });
   }
 
@@ -146,6 +247,9 @@ export default function ToDoListContextProvider({
     onDelete: handleOnDeleteTask,
     onEdit: handleOnEditTask,
     onAdd: handleOnAddTask,
+    onDeleteHistoryTask: handleOnDeleteHistoryTask,
+    onUndo: handleOnUndo,
+    onClearAll: handleOnClearAll,
   };
 
   return (

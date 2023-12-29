@@ -2,11 +2,11 @@ import { DeletedTaskProps } from "../model/types";
 import classes from "./deletedtask.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCanArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import { TodoListContext } from "../store/to-do-list-context";
 
-export default function DeletedTask({
-  data,
-  undoDeletedTask,
-}: DeletedTaskProps) {
+export default function DeletedTask({ data }: DeletedTaskProps) {
+  const { onUndo } = useContext(TodoListContext);
   return (
     <div className={classes.task}>
       <li>
@@ -16,7 +16,7 @@ export default function DeletedTask({
         className={classes["undo-icon"]}
         icon={faTrashCanArrowUp}
         onClick={() => {
-          undoDeletedTask(data);
+          onUndo(data.id);
         }}
       />
     </div>

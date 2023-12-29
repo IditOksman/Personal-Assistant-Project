@@ -3,8 +3,8 @@ import { TodoListContext } from "../store/to-do-list-context";
 
 export default function UserInput() {
   const taskRef = useRef<HTMLInputElement | null>(null);
-
   const { onAdd } = useContext(TodoListContext);
+
   function onUserInputHandler(event: React.ChangeEvent<HTMLInputElement>) {
     if (taskRef.current) {
       taskRef.current.value = event.target.value;
@@ -14,6 +14,7 @@ export default function UserInput() {
   function onAddToListHandler() {
     if (taskRef.current === null) return;
     if (taskRef.current.value.trim() === "") return;
+    console.log("onAddToListHandler");
     onAdd(taskRef.current.value);
     taskRef.current.value = "";
   }

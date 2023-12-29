@@ -1,5 +1,4 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import { DeletedListRef, Task, ToDoListRef } from "../model/types";
+import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
@@ -8,25 +7,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ToDoList from "./ToDoList";
 import DeletedList from "./DeletedList";
+import { TodoListContext } from "../store/to-do-list-context";
 
 function Tasks() {
   const [isInHistoryMode, setIsInHistoryMode] = useState(false);
-  const deletedListComponentRef = useRef<DeletedListRef | null>(null);
-
-  function onDeleteHandler(deletedTask: Task) {
-    if (deletedListComponentRef.current === null) return;
-    deletedListComponentRef.current.addTaskToDeletedList(deletedTask);
-  }
-
-  function onUndoHandler(taskToUndo: Task) {
-    onAddHandler(taskToUndo);
-  }
-
-  function onClearAllHandler() {
-    if (deletedListComponentRef.current === null) return;
-    deletedListComponentRef.current.clearAllDeletedList();
-  }
-
+  const { onClearAll } = useContext(TodoListContext);
   return (
     <div>
       <h2>Your Tasks:</h2>
@@ -53,15 +38,13 @@ function Tasks() {
           <FontAwesomeIcon
             className="clear-all-icon"
             icon={faTrashCan}
-            onClick={onClearAllHandler}
+            onClick={() => {
+              onClearAll();
+            }}
           />
         )}
       </div>
-      {!isInHistoryMode ? (
-        <ToDoList />
-      ) : (
-        <DeletedList ref={deletedListComponentRef} onUndo={onUndoHandler} />
-      )}
+      {!isInHistoryMode ? <ToDoList /> : <DeletedList />}
     </div>
   );
 }
