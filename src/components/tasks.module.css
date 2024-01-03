@@ -1,0 +1,11 @@
+.icon-container {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 5em;
+  margin-right: 5em;
+}
+
+.tasks-wrapper {
+  width: 100%;
+}

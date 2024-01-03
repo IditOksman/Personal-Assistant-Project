@@ -1,10 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@500&family=Roboto:wght@100&display=swap");
 
+html,
 body {
-  display: flex;
-  justify-content: center;
-  background-color: rgba(7, 150, 148, 0.834);
+  height: 100%;
+  margin: 0;
+}
+
+.main-content {
+  width: 87%;
+  /* background-color: rgba(7, 150, 148, 0.834); */
   font-family: "Playpen Sans", cursive;
+}
+
+.app-container {
+  display: flex;
+  height: 100em;
 }
 
 h1,
@@ -45,7 +55,6 @@ input {
   transition: border-color 0.3s ease-in-out;
 }
 
-/* Hover Effect */
 input:hover {
   border-color: #666;
 }
@@ -64,4 +73,10 @@ ul {
   cursor: pointer;
   display: flex;
   justify-content: space-between;
+}
+
+.tasks {
+  margin-left: 20em;
+  margin-right: 20em;
+  margin-top: 3em;
 }

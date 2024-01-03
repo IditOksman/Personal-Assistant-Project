@@ -26,6 +26,7 @@ export default function NewTask({ data }: NewTaskProps) {
             data.text
           )}
         </div>
+
         <div className={classes["task-icons"]}>
           <FontAwesomeIcon
             onClick={() => {

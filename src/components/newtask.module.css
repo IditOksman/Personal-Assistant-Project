@@ -5,7 +5,7 @@ li {
 }
 
 .task {
-  border: none;
+  border: 2px solid #5656568f;
   position: relative;
   overflow: hidden;
   border-radius: 5px;
@@ -15,9 +15,8 @@ li {
 }
 
 .edit-task-text {
-  position: absolute;
   overflow: hidden;
-  width: 60%;
+  width: 90%;
   height: 10%;
   background: rgba(255, 255, 255, 0.631);
   /* border: none; */
@@ -36,11 +35,20 @@ li {
 }
 
 .task-icons {
+  margin: auto;
   color: #5656568f;
   cursor: pointer;
+  width: 10%;
+  display: flex;
+  justify-content: center;
 }
 
 .task-pen-icon,
 .task-check-icon {
   margin-left: 5px;
+}
+
+.task-text {
+  word-break: break-all;
+  width: 90%;
 }

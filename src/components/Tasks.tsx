@@ -8,17 +8,17 @@ import {
 import ToDoList from "./ToDoList";
 import DeletedList from "./DeletedList";
 import { TodoListContext } from "../store/to-do-list-context";
+import classes from "./tasks.module.css";
 
 function Tasks() {
   const [isInHistoryMode, setIsInHistoryMode] = useState(false);
   const { onClearAll } = useContext(TodoListContext);
   return (
-    <div>
-      <h2>Your Tasks:</h2>
-      <div className="icon-container">
+    <div className={classes["tasks-wrapper"]}>
+      <div className={classes["icon-container"]}>
         {!isInHistoryMode ? (
           <FontAwesomeIcon
-            className="clock-icon"
+            className={classes["clock-icon"]}
             icon={faClockRotateLeft}
             onClick={() => {
               setIsInHistoryMode(!isInHistoryMode);
@@ -26,7 +26,7 @@ function Tasks() {
           />
         ) : (
           <FontAwesomeIcon
-            className="ArrowLeft"
+            className={classes["ArrowLeft"]}
             icon={faArrowLeft}
             onClick={() => {
               setIsInHistoryMode(!isInHistoryMode);
@@ -36,7 +36,7 @@ function Tasks() {
 
         {!isInHistoryMode ? null : (
           <FontAwesomeIcon
-            className="clear-all-icon"
+            className={classes["clear-all-icon"]}
             icon={faTrashCan}
             onClick={() => {
               onClearAll();

@@ -11,14 +11,17 @@ export default function DeletedTask({ data }: DeletedTaskProps) {
     <div className={classes.task}>
       <li>
         <div className={classes["task-text"]}>{data.text}</div>
+
+        <div className={classes["task-icons"]}>
+          <FontAwesomeIcon
+            className={classes["undo-icon"]}
+            icon={faTrashCanArrowUp}
+            onClick={() => {
+              onUndo(data.id);
+            }}
+          />
+        </div>
       </li>
-      <FontAwesomeIcon
-        className={classes["undo-icon"]}
-        icon={faTrashCanArrowUp}
-        onClick={() => {
-          onUndo(data.id);
-        }}
-      />
     </div>
   );
 }
