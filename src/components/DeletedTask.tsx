@@ -7,6 +7,7 @@ import { TodoListContext } from "../store/to-do-list-context";
 
 export default function DeletedTask({ data }: DeletedTaskProps) {
   const { onUndo } = useContext(TodoListContext);
+
   return (
     <div className={classes.task}>
       <li>
@@ -22,6 +23,10 @@ export default function DeletedTask({ data }: DeletedTaskProps) {
           />
         </div>
       </li>
+      <div className={classes["date-time-container"]}>
+        <div>{data.time}</div>
+        <div>{data.date}</div>
+      </div>
     </div>
   );
 }

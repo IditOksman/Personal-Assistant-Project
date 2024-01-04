@@ -1,24 +1,9 @@
 li {
   display: flex;
-  list-style-type: none;
   justify-content: space-between;
 }
 
 .task {
-  /* display: flex;
-  justify-content: space-between;
-  border: 2px solid #5656568f;
-  position: relative;
-  overflow: hidden;
-  border-radius: 5px;
-  background-color: #ffffff;
-  margin-bottom: 5px;
-  padding: 10px;
-  text-decoration: line-through;
-  margin-left: 5em;
-  margin-right: 5em; */
-  /* margin-top: 1em; */
-  text-decoration: line-through;
   border: 2px solid #5656568f;
   position: relative;
   overflow: hidden;
@@ -35,6 +20,7 @@ li {
 }
 
 .task-text {
+  text-decoration: line-through;
   opacity: 0.6;
   word-break: break-all;
   width: 90%;
@@ -51,4 +37,9 @@ li {
 
 .task-icons:hover {
   color: black;
+}
+
+.date-time-container {
+  font-size: small;
+  color: #4a4a4ad2;
 }

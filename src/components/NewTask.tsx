@@ -25,8 +25,11 @@ export default function NewTask({ data }: NewTaskProps) {
           ) : (
             data.text
           )}
+          <div className={classes["date-time-container"]}>
+            <div>{data.time}</div>
+            <div>{data.date}</div>
+          </div>
         </div>
-
         <div className={classes["task-icons"]}>
           <FontAwesomeIcon
             onClick={() => {

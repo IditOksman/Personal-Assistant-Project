@@ -16,6 +16,7 @@
 
 .menuIcon {
   margin-left: auto;
+  cursor: pointer;
 }
 
 .content {

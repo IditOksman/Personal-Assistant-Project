@@ -91,11 +91,19 @@ function toDoListReducer(
     case "EDIT_ITEM": {
       let updatedToDoList = [...state.toDoList];
       const editAction = action as EditItemAction;
+      const currDate = new Date().toLocaleDateString();
+      const currTime = new Date().toLocaleTimeString();
 
       updatedToDoList = updatedToDoList
         .map((task) =>
-          task.id === editAction.payload.id
-            ? { ...task, text: editAction.payload.newText }
+          task.id === editAction.payload.id &&
+          task.text !== editAction.payload.newText
+            ? {
+                ...task,
+                text: editAction.payload.newText,
+                date: currDate,
+                time: currTime,
+              }
             : task
         )
         .filter((task) => task.text.trim() !== "");
@@ -111,12 +119,16 @@ function toDoListReducer(
       console.log("toDoListReducer ADD_ITEM");
       let updatedToDoList = [...state.toDoList];
       const addAction = action as AddItemAction;
+      const currDate = new Date().toLocaleDateString();
+      const currTime = new Date().toLocaleTimeString();
 
       console.log("list = " + updatedToDoList);
 
       const newTask: Task = {
         id: Math.random(),
         text: addAction.payload,
+        time: currTime,
+        date: currDate,
       };
 
       console.log("task to add = ");

@@ -9,6 +9,8 @@ export interface DeletedTaskProps {
 export interface Task {
   text: string;
   id: number;
+  time: string;
+  date: string;
 }
 
 export interface TodoListContextValues {
