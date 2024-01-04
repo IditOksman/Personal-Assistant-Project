@@ -103,6 +103,7 @@ function toDoListReducer(
                 text: editAction.payload.newText,
                 date: currDate,
                 time: currTime,
+                edited: true,
               }
             : task
         )
@@ -129,6 +130,7 @@ function toDoListReducer(
         text: addAction.payload,
         time: currTime,
         date: currDate,
+        edited: false,
       };
 
       console.log("task to add = ");

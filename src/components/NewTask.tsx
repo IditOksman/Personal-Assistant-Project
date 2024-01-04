@@ -25,10 +25,17 @@ export default function NewTask({ data }: NewTaskProps) {
           ) : (
             data.text
           )}
-          <div className={classes["date-time-container"]}>
-            <div>{data.time}</div>
-            <div>{data.date}</div>
-          </div>
+
+          {data.edited ? (
+            <p className={classes["last-edited"]}>
+              Last edited: {data.date} at {data.time}
+            </p>
+          ) : (
+            <div className={classes["date-time-container"]}>
+              <div>{data.time}</div>
+              <div>{data.date}</div>
+            </div>
+          )}
         </div>
         <div className={classes["task-icons"]}>
           <FontAwesomeIcon

@@ -11,6 +11,7 @@ export interface Task {
   id: number;
   time: string;
   date: string;
+  edited: boolean;
 }
 
 export interface TodoListContextValues {
