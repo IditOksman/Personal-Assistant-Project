@@ -1,0 +1,15 @@
+.app-container {
+  display: flex;
+  height: 100em;
+}
+
+.main-content {
+  width: 87%;
+  font-family: "Playpen Sans", cursive;
+}
+
+.tasks {
+  margin-left: 20em;
+  margin-right: 20em;
+  margin-top: 3em;
+}

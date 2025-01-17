@@ -1,23 +1,19 @@
 import "./App.css";
-import SideBar from "./components/SideBar.tsx";
-import Tasks from "./components/Tasks";
-import UserInput from "./components/UserInput";
-import ToDoListContextProvider from "./store/to-do-list-context.tsx";
+import Home from "./components/Home/Home.tsx";
+import Login from "./components/Login/Login.tsx";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+//import { TodoListContext } from "./store/to-do-list-context.tsx";
+//import { useContext } from "react";
 
 function App() {
   return (
-    <ToDoListContextProvider>
-      <div className="app-container">
-        <SideBar />
-        <div className="main-content">
-          <h1>To Do List</h1>
-          <UserInput />
-          <div className="tasks">
-            <Tasks />
-          </div>
-        </div>
-      </div>
-    </ToDoListContextProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/Home" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

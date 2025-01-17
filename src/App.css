@@ -6,17 +6,6 @@ body {
   margin: 0;
 }
 
-.main-content {
-  width: 87%;
-  /* background-color: rgba(7, 150, 148, 0.834); */
-  font-family: "Playpen Sans", cursive;
-}
-
-.app-container {
-  display: flex;
-  height: 100em;
-}
-
 h1,
 .input-box,
 h2 {
@@ -75,8 +64,9 @@ ul {
   justify-content: space-between;
 }
 
-.tasks {
-  margin-left: 20em;
-  margin-right: 20em;
-  margin-top: 3em;
+.menuIcon {
+  height: fit-content;
+  display: flex;
+  justify-content: flex-end;
+  margin: 5px;
 }

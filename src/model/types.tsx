@@ -17,10 +17,12 @@ export interface Task {
 export interface TodoListContextValues {
   toDoList: Task[];
   deletedList: Task[];
-  onDelete: (id: number) => void;
-  onEdit: (id: number, newText: string) => void;
-  onAdd: (newText: string) => void;
-  onDeleteHistoryTask: (id: number) => void;
-  onUndo: (id: number) => void;
-  onClearAll: () => void;
+  isSidebarOpen: boolean;
+  // onToggleSidebar: () => void;
+  // onDelete: (id: number) => void;
+  // onEdit: (id: number, newText: string) => void;
+  // onAdd: (newText: string) => void;
+  // onDeleteHistoryTask: (id: number) => void;
+  // onUndo: (id: number) => void;
+  // onClearAll: () => void;
 }

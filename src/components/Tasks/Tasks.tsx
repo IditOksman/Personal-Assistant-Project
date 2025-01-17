@@ -5,16 +5,21 @@ import {
   faClockRotateLeft,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
-import ToDoList from "./ToDoList";
-import DeletedList from "./DeletedList";
-import { TodoListContext } from "../store/to-do-list-context";
+import ToDoList from "../Todolist/ToDoList";
+import DeletedList from "../DeleteList/DeletedList";
+//import { TodoListContext } from "../../store/to-do-list-context";
 import classes from "./tasks.module.css";
+import { useDispatch } from "react-redux";
+import { todoActions } from "../../store/slices/todoSlice";
 
 function Tasks() {
   const [isInHistoryMode, setIsInHistoryMode] = useState(false);
-  const { onClearAll } = useContext(TodoListContext);
+  // const { onClearAll } = useContext(TodoListContext);
+  const dispatch = useDispatch();
+
   return (
     <div className={classes["tasks-wrapper"]}>
+      {" "}
       <div className={classes["icon-container"]}>
         {!isInHistoryMode ? (
           <FontAwesomeIcon
@@ -26,7 +31,7 @@ function Tasks() {
           />
         ) : (
           <FontAwesomeIcon
-            className={classes["ArrowLeft"]}
+            className={classes["ArrowLeft"]} //CSS Modules Syntax
             icon={faArrowLeft}
             onClick={() => {
               setIsInHistoryMode(!isInHistoryMode);
@@ -39,7 +44,7 @@ function Tasks() {
             className={classes["clear-all-icon"]}
             icon={faTrashCan}
             onClick={() => {
-              onClearAll();
+              dispatch(todoActions.clearAll());
             }}
           />
         )}
