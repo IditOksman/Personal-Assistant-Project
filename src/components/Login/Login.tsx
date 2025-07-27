@@ -9,14 +9,10 @@ export default function LoginPage() {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const startColor = "#FFFF22"; // Red
+  const startColor = "#db146a"; // Red
   const endColor = "#2222FF"; // Blue
-  const numberOfSteps = 5;
-  // const interpolatedColors = getHCLInterpolatedColors(
-  //   startColor,
-  //   endColor,
-  //   numberOfSteps
-  // );
+  const numberOfSteps = 3;
+
   const gradient = chroma
     .scale([startColor, endColor])
     .mode("hcl")
@@ -24,37 +20,6 @@ export default function LoginPage() {
   const CSSGradient = {
     background: `linear-gradient(to right, ${gradient.join(", ")})`,
   };
-  // console.log(gradient);
-
-  // function getHCLInterpolatedColors(
-  //   color1: string,
-  //   color2: string,
-  //   steps: number
-  // ): string[] {
-  //   const startColor = chroma(color1);
-  //   const endColor = chroma(color2);
-
-  //   // Convert to HCL
-  //   const startHCL = startColor.hcl();
-  //   const endHCL = endColor.hcl();
-
-  //   const colors: string[] = [];
-
-  //   for (let i = 0; i < steps; i++) {
-  //     const ratio = i / (steps - 1 + 5);
-
-  //     // Interpolate HCL values
-  //     const h = startHCL[0] + (endHCL[0] - startHCL[0]) * ratio;
-  //     const c = startHCL[1] + (endHCL[1] - startHCL[1]) * ratio;
-  //     const l = startHCL[2] + (endHCL[2] - startHCL[2]) * ratio;
-
-  //     // Convert back to hex
-  //     const color = chroma.hcl(h, c, l).hex();
-  //     colors.push(color);
-  //   }
-
-  //   return colors;
-  // }
 
   function onEmailHandler(event: React.ChangeEvent<HTMLInputElement>) {
     if (emailRef.current) {
@@ -70,11 +35,8 @@ export default function LoginPage() {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    console.log("-1");
-
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("0");
 
     if (emailRef.current === null || passwordRef.current === null) return;
 
@@ -82,11 +44,36 @@ export default function LoginPage() {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
-    console.log("1");
 
     if (loginData.email.trim() !== "" && loginData.password.trim() !== "") {
-      console.log("2");
-      navigate("/Home");
+      try {
+        const response = await fetch(
+          "http://localhost:3000/api/validate-user",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(loginData),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const result = await response.json();
+        if (result.success) {
+          console.log("Login successful");
+          navigate("/Home");
+        } else {
+          console.log("Login failed:", result.message);
+          // Handle login failure (show error message, etc.)
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
+        // Handle error (show error message, etc.)
+      }
     }
   };
 

@@ -23,3 +23,8 @@
 .content {
   padding-top: 1em;
 }
+
+.newsButton {
+  display: flex;
+  margin-right: 0;
+}
